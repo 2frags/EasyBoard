@@ -55,7 +55,7 @@ if(IN_MANAGER_MODE!='true') die('<h1>Forbidden!</h1>');
     if (!empty($_POST['item_id'])){//редактирование записи
 	$context = ( isset($_POST[context]) ) ? $modx->db->escape($_POST[context]) : "";
     $id = (int)$_POST['item_id'];
-	$data = mysql_fetch_array($modx->db->select("*", $mod_table, "id = $id", "", ""));
+	$data = mysqli_fetch_array($modx->db->select("*", $mod_table, "id = $id", "", ""));
     $pagetitle = $data['pagetitle'];
     $content = $data['content'];
 	$createdby = $data['createdby'];
@@ -185,7 +185,7 @@ if(IN_MANAGER_MODE!='true') die('<h1>Forbidden!</h1>');
 	
     //Страница модуля
     default:
-    if (mysql_num_rows(mysql_query("show tables from $dbname like '$mod_table'"))==0){
+    if (mysqli_num_rows(mysqli_query("show tables from $dbname like '$mod_table'"))==0){
     //если таблицы не существует, выводим кнопку "Установить модуль"
      
     echo '<a href="#" onclick="postForm(\'install\',null);return false;">Установить модуль</a>';
@@ -303,7 +303,7 @@ if(IN_MANAGER_MODE!='true') die('<h1>Forbidden!</h1>');
 	echo $template;
     
 	$tmp = $template = file_get_contents($basePath."assets/modules/easy_board/tpl/table.row.tpl");
-    while ($data = mysql_fetch_array($data_query)){//выводим записи
+    while ($data = mysqli_fetch_array($data_query)){//выводим записи
 		$template = $tmp;
 		$template = str_replace("[+id+]", $data[id], $template);
 		$template = str_replace("[+pagetitle+]", $data['pagetitle'], $template);
