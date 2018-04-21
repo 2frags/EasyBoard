@@ -6,7 +6,9 @@ if(IN_MANAGER_MODE!='true') die('<h1>Forbidden!</h1>');
 	include_once($modx->config['base_path'].'assets/modules/easy_board/easy_board.config.php');
 	
 	include_once($modx->config['base_path'].'assets/modules/easy_board/easy_board.inc.php');
-	
+
+	$mysqli_connect = mysqli_connect($dbhost,$dbusr,$dbpass,trim($dbname, '`'));
+
 	$template = file_get_contents($basePath."assets/modules/easy_board/tpl/head.tpl");
 	$template = str_replace("[+theme+]", $theme, $template);
 	$template = str_replace("[+site_url+]", $modx->config['site_url'], $template);
@@ -185,7 +187,7 @@ if(IN_MANAGER_MODE!='true') die('<h1>Forbidden!</h1>');
 	
     //Страница модуля
     default:
-    if (mysqli_num_rows(mysqli_query("show tables from $dbname like '$mod_table'"))==0){
+    if (mysqli_num_rows(mysqli_query($mysqli_connect,"show tables from $dbname like '$mod_table'"))==0){
     //если таблицы не существует, выводим кнопку "Установить модуль"
      
     echo '<a href="#" onclick="postForm(\'install\',null);return false;">Установить модуль</a>';
